@@ -1,0 +1,104 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentDoctor.id">
+    <h4>Doctor</h4>
+    <div>
+      <label><strong>Name:</strong></label> {{ currentDoctor.name }}
+    </div>
+    <div>
+      <label><strong>Age:</strong></label>
+      {{ currentDoctor.age }}
+    </div>
+    <div>
+      <label><strong>Specialty:</strong></label>
+      {{ currentDoctor.specialty }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/doctors/{{ currentDoctor.id }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentDoctor">
+    <br />
+    <p>Please click on a Doctor...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentDoctor.id" class="edit-form">
+    <h4>Doctor</h4>
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentDoctor.name"
+          name="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input
+          type="text"
+          class="form-control"
+          id="age"
+          [(ngModel)]="currentDoctor.age"
+          name="age"
+        />
+      </div>
+      <div class="form-group">
+        <label for="specialty">Specialty</label>
+        <input
+          type="text"
+          class="form-control"
+          id="specialty"
+          [(ngModel)]="currentDoctor.specialty"
+          name="age"
+        />
+      </div>
+
+<!--      <div class="form-group">-->
+<!--        <label><strong>Status:</strong></label>-->
+<!--        {{ currentDoctor.published ? "Published" : "Pending" }}-->
+<!--      </div>-->
+    </form>
+
+<!--    <button-->
+<!--      class="badge badge-primary mr-2"-->
+<!--      *ngIf="currentDoctor.published"-->
+<!--      (click)="updatePublished(false)"-->
+<!--    >-->
+<!--      UnPublish-->
+<!--    </button>-->
+<!--    <button-->
+<!--      *ngIf="!currentDoctor.published"-->
+<!--      class="badge badge-primary mr-2"-->
+<!--      (click)="updatePublished(true)"-->
+<!--    >-->
+<!--      Publish-->
+<!--    </button>-->
+
+    <button class="badge badge-danger mr-2" (click)="deleteDoctor()">
+      Delete
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateDoctor()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentDoctor.id">
+    <br />
+    <p>Cannot access this Doctor...</p>
+  </div>
+</ng-template>

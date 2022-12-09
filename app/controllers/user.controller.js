@@ -1,3 +1,7 @@
+const { sequelize } = require("../models");
+const db = require("../models");
+const User = db.user;
+
 const doctorController = require("../controllers/doctor.controller");
 const {authJwt} = require("../middleware");
 // app.get(

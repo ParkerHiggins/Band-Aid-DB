@@ -1,0 +1,79 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          required
+          [(ngModel)]="patient.name"
+          name="title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input
+          class="form-control"
+          id="age"
+          required
+          [(ngModel)]="patient.age"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <input
+          class="form-control"
+          id="gender"
+          required
+          [(ngModel)]="patient.gender"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="race">Race</label>
+        <input
+          class="form-control"
+          id="race"
+          required
+          [(ngModel)]="patient.race"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="condition_name">Condition</label>
+        <input
+          class="form-control"
+          id="condition_name"
+          required
+          [(ngModel)]="patient.condition_name"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="room_number">Room Number</label>
+        <input
+          class="form-control"
+          id="room_number"
+          required
+          [(ngModel)]="patient.room_number"
+          name="description"
+        />
+      </div>
+
+      <button class="btn btn-success" (click)="savePatient()">Submit</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>Patient was submitted successfully!</h4>
+      <button class="btn btn-success" (click)="newPatient()">Add</button>
+    </div>
+  </div>
+</div>

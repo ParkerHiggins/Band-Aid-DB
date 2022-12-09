@@ -8,6 +8,10 @@ import { AddDoctorComponent } from './components/add-doctor/add-doctor.component
 import { DoctorDetailsComponent } from './components/doctor-details/doctor-details.component';
 import { DoctorListComponent } from './components/doctor-list/doctor-list.component';
 
+import { AddPatientComponent} from "./components/add-patient/add-patient.component";
+import { PatientDetailsComponent} from "./components/patient-details/patient-details.component";
+import {PatientListComponent} from "./components/patient-list/patient-list.component";
+
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -27,6 +31,9 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     AddDoctorComponent,
     DoctorDetailsComponent,
     DoctorListComponent,
+    AddPatientComponent,
+    PatientDetailsComponent,
+    PatientListComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,

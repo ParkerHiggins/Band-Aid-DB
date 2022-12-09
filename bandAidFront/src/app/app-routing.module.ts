@@ -5,6 +5,10 @@ import { DoctorListComponent } from './components/doctor-list/doctor-list.compon
 import { DoctorDetailsComponent } from './components/doctor-details/doctor-details.component';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 
+import { PatientListComponent } from './components/patient-list/patient-list.component';
+import { PatientDetailsComponent} from "./components/patient-details/patient-details.component";
+import { AddPatientComponent} from "./components/add-patient/add-patient.component";
+
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -18,6 +22,10 @@ const routes: Routes = [
   { path: 'doctors', component: DoctorListComponent },
   { path: 'doctors/:id', component: DoctorDetailsComponent },
   { path: 'add', component: AddDoctorComponent },
+
+  { path: 'patients', component: PatientListComponent},
+  { path: 'patients/:id', component: PatientDetailsComponent},
+  { path: 'add2', component: AddPatientComponent},
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },

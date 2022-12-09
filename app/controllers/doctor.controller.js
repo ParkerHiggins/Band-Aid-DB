@@ -2,6 +2,8 @@ const db = require("../models");
 const Doctor = db.doctor;
 const Op = db.Sequelize.Op;
 
+// Changes for git demo
+
 // Create and Save a new Doctor
 exports.create = (req, res) => {
     // Validate request

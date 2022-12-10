@@ -66,8 +66,6 @@ db.patient.belongsTo(db.doctor, {
     foreignKey: "doctor_id",
 });
 
-
-
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
@@ -101,9 +99,7 @@ sequelize.sync({force:true}).then(function() {
         treatment_name: "Antibiotics"
         }
     ])
-})
 
-sequelize.sync({force:true}).then(function() {
     db.treatment.bulkCreate([
         {
             name: "Hydration",
@@ -111,15 +107,17 @@ sequelize.sync({force:true}).then(function() {
             cost: 0
         },
         {
-            condition_name: "Antiviral Drugs",
+            name: "Antiviral Drugs",
             duration: "1-2 weeks",
             cost: 70
         },
         {
-            condition_name: "Antibiotics",
+            name: "Antibiotics",
             duration: "2-3 weeks",
             cost: 20
         }
     ])
+
 })
+
 

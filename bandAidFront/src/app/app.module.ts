@@ -10,7 +10,7 @@ import { DoctorListComponent } from './components/doctor-list/doctor-list.compon
 
 import { AddPatientComponent} from "./components/add-patient/add-patient.component";
 import { PatientDetailsComponent} from "./components/patient-details/patient-details.component";
-import {PatientListComponent} from "./components/patient-list/patient-list.component";
+import { PatientListComponent } from "./components/patient-list/patient-list.component";
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { ReportsComponent } from "./components/reports/reports.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './components/board-moderator/board-moderator.component';
@@ -37,6 +38,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
+    ReportsComponent,
     ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,

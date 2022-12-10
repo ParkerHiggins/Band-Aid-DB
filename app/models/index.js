@@ -26,6 +26,9 @@ db.insurance_provider = require("../models/insurance_provider.model.js")(sequeli
 db.treatment = require("../models/treatment.model.js")(sequelize, Sequelize);
 db.condition = require("../models/condition.model.js")(sequelize, Sequelize);
 
+
+//db.condition.create({condition_name: "Cold", symptoms: "Sneezing", treatment_name: "Hydration"});
+
 db.patient.belongsToMany(db.condition, {
     through: "patient_condition",
     foreignKey: "patient_id",
@@ -79,3 +82,44 @@ db.user.belongsToMany(db.role, {
 });
 db.ROLES = ["user", "admin", "moderator"];
 module.exports = db;
+
+sequelize.sync({force:true}).then(function() {
+    db.condition.bulkCreate([
+        {
+        condition_name: "Cold",
+        symptoms: "Sneezing, Coughing, Runny Nose",
+        treatment_name: "Hydration"
+        },
+        {
+        condition_name: "Flu",
+        symptoms: "Fever",
+        treatment_name: "Antiviral Drugs"
+        },
+        {
+        condition_name: "Pneumonia",
+        symptoms: "Difficulty Breathing, Fever, Sweating",
+        treatment_name: "Antibiotics"
+        }
+    ])
+})
+
+sequelize.sync({force:true}).then(function() {
+    db.treatment.bulkCreate([
+        {
+            name: "Hydration",
+            duration: "Everyday",
+            cost: 0
+        },
+        {
+            condition_name: "Antiviral Drugs",
+            duration: "1-2 weeks",
+            cost: 70
+        },
+        {
+            condition_name: "Antibiotics",
+            duration: "2-3 weeks",
+            cost: 20
+        }
+    ])
+})
+

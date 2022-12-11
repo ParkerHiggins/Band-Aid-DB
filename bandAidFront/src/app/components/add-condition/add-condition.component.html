@@ -24,33 +24,12 @@
         />
       </div>
 
-<!--      multiple class="form-control"-->
-
       <div>
-<!--        TODO: Pass in args to ensure that only the treatment list is displayed-->
         <app-treatments-list
           (selectTreatment)="updateTreatment($event)"
-          [inCondition]="true"
+          [inParent]="true"
         ></app-treatments-list>
       </div>
-
-<!--      <div class="form-group">-->
-<!--        <label for="treatment_name">Example multiple select</label>-->
-<!--        <select-->
-<!--          multiple class="form-control"-->
-<!--          id="treatment_name"-->
-<!--          required-->
-<!--          [(ngModel)]="condition.treatment_name"-->
-<!--          name="treatment_name"-->
-<!--        >-->
-<!--&lt;!&ndash;          TODO: make options reflect treatments in database&ndash;&gt;-->
-<!--          <option>1</option>-->
-<!--          <option>2</option>-->
-<!--          <option>3</option>-->
-<!--          <option>4</option>-->
-<!--          <option>5</option>-->
-<!--        </select>-->
-<!--      </div>-->
 
       <button (click)="saveCondition()" class="btn btn-success">Submit</button>
     </div>

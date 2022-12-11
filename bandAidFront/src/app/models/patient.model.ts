@@ -6,4 +6,6 @@ export class Patient {
     race?: string;
     condition_name?: string;
     room_number?: number;
+    provider_name?: string;
+    doctor_name?: string;
   }

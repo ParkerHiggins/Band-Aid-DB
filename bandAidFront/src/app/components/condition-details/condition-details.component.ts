@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ConditionService } from 'src/app/services/condition.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Condition } from 'src/app/models/condition.model';
+import { Treatment } from 'src/app/models/treatment.model';
 
 @Component({
   selector: 'app-condition-details',
@@ -20,6 +21,8 @@ export class ConditionDetailsComponent implements OnInit {
 
   message = '';
 
+  treatment: Treatment = {};
+
   constructor(
     private conditionService: ConditionService,
     private route: ActivatedRoute,
@@ -33,6 +36,10 @@ export class ConditionDetailsComponent implements OnInit {
     }
   }
 
+  updateTreatment(treatment: Treatment): void {
+    this.treatment = treatment;
+  }
+
   getCondition(id: string): void {
     this.conditionService.get(id)
       .subscribe({
@@ -44,31 +51,17 @@ export class ConditionDetailsComponent implements OnInit {
       });
   }
 
-  // todo: might need to get rid of this sone
-  // updatePublished(status: boolean): void {
-  //   const data = {
-  //     name: this.currentCondition.name,
-  //     description: this.currentCondition.description,
-  //     published: status
-  //   };
-  //
-  //   this.message = '';
-  //
-  //   this.conditionService.update(this.currentCondition.id, data)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log(res);
-  //         this.currentCondition.published = status;
-  //         this.message = res.message ? res.message : 'The status was updated successfully!';
-  //       },
-  //       error: (e) => console.error(e)
-  //     });
-  // }
-
   updateCondition(): void {
     this.message = '';
 
-    this.conditionService.update(this.currentCondition.id, this.currentCondition)
+    const data = {
+      condition_name: this.currentCondition.condition_name,
+      symptoms: this.currentCondition.symptoms,
+      treatment_name: this.treatment.name,
+      treatmentId: this.treatment.id
+    };
+
+    this.conditionService.update(this.currentCondition.id, data)
       .subscribe({
         next: (res) => {
           console.log(res);

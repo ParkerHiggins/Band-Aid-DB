@@ -13,6 +13,15 @@
       {{ currentCondition.treatment_name }}
     </div>
 
+
+<!--    TODO: Add patient list-->
+    <div>
+      <app-patients-list
+        [inParent]="true"
+      ></app-patients-list>
+    </div>
+
+
     <a
       class="badge badge-warning"
       routerLink="/conditions/{{ currentCondition.id }}"
@@ -52,38 +61,14 @@
             name="symptoms"
           />
         </div>
-        <div class="form-group">
-          <label for="treatment_name">Treatment Name</label>
-<!--          TODO: maybe change this from 'text' to 'textarea'-->
-          <input
-            type="text"
-            class="form-control"
-            id="treatment_name"
-            [(ngModel)]="currentCondition.treatment_name"
-            name="treatment_name"
-          />
+
+        <div>
+          <app-treatments-list
+            (selectTreatment)="updateTreatment($event)"
+            [inParent]="true"
+          ></app-treatments-list>
         </div>
-
-        <!--      <div class="form-group">-->
-        <!--        <label><strong>Status:</strong></label>-->
-        <!--        {{ currentCondition.published ? "Published" : "Pending" }}-->
-        <!--      </div>-->
       </form>
-
-      <!--    <button-->
-      <!--      class="badge badge-primary mr-2"-->
-      <!--      *ngIf="currentCondition.published"-->
-      <!--      (click)="updatePublished(false)"-->
-      <!--    >-->
-      <!--      UnPublish-->
-      <!--    </button>-->
-      <!--    <button-->
-      <!--      *ngIf="!currentCondition.published"-->
-      <!--      class="badge badge-primary mr-2"-->
-      <!--      (click)="updatePublished(true)"-->
-      <!--    >-->
-      <!--      Publish-->
-      <!--    </button>-->
 
       <button class="badge badge-danger mr-2" (click)="deleteCondition()">
         Delete

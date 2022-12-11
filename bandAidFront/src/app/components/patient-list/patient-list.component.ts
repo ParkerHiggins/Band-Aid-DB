@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Patient } from 'src/app/models/patient.model';
 import { PatientService } from 'src/app/services/patient.service';
 
@@ -8,6 +8,8 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
+
+  @Input() inParent = false;
 
   patients?: Patient[];
   currentPatient: Patient = {};

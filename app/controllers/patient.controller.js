@@ -1,5 +1,9 @@
 const db = require("../models");
+const patient_condition = require("./patient.controller");
 const Patient = db.patient;
+const Condition = db.condition;
+const Provider = db.provider;
+const Doctor = db.doctor;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Patient
@@ -12,6 +16,10 @@ exports.create = (req, res) => {
         return;
     }
 
+    const conditionId = req.body.conditionId;
+    const providerId = req.body.providerId;
+    const doctorId = req.body.doctorId;
+
     // Create a new Patient
     const patient = {
         name: req.body.name,
@@ -19,12 +27,18 @@ exports.create = (req, res) => {
         gender: req.body.gender,
         race: req.body.race,
         condition_name: req.body.condition_name, 
-        room_number: req.body.room_number
+        room_number: req.body.room_number,
+        provider_name: req.body.provider_name,
+        providerId: providerId,
+        doctor_name: req.body.doctor_name,
+        doctorId: doctorId
     };
 
-    // Save Tutorial in the database
+    // Save Patient in the database
     Patient.create(patient)
         .then(data => {
+            const patientId = data.id;
+            patient_condition.addCondition(patientId, conditionId);
             res.send(data);
         })
         .catch(err => {
@@ -35,12 +49,59 @@ exports.create = (req, res) => {
         });
 };
 
+exports.addCondition = async (patientId, conditionId) => {
+    console.log("patientId:");
+    console.log(patientId);
+    return await Patient.findByPk(patientId)
+        .then((patient) => {
+            if (!patient) {
+                console.log("Patient not found!");
+                return null;
+            }
+            return Condition.findByPk(conditionId).then((condition) => {
+                if (!condition) {
+                    console.log("Condition not found!");
+                    return null;
+                }
+
+                patient.addCondition(condition);
+                console.log(`>> added Condition id=${condition.id} to Patient id=${patient.id}`);
+                return patient;
+            });
+        })
+        .catch((err) => {
+            console.log(">> Error while adding Condition to Patient: ", err);
+        });
+};
+
 // Retrieve all Patients from the database.
 exports.findAll = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-    Patient.findAll({ where: condition })
+    Patient.findAll({
+        where: condition,
+        include: [
+            {
+                model: Condition,
+                as: "conditions",
+                attributes: ["id", "condition_name", "symptoms", "treatment_name"],
+                through: {
+                    attributes: [],
+                }
+            },
+            "doctors",
+            "providers",
+            // {
+            //     model: Provider,
+            //     as: "providers",
+            //     attributes: ["id", "name", "coverage_offered", "phone_number"],
+            //     through: {
+            //         attributes: [],
+            //     }
+            // }
+        ]
+    })
         .then(data => {
             res.send(data);
         })
@@ -77,11 +138,14 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
+    const conditionId = req.body.conditionId;
+
     Patient.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
+                patient_condition.addCondition(id, conditionId);
                 res.send({
                     message: "Patient was updated successfully."
                 });
@@ -92,6 +156,7 @@ exports.update = (req, res) => {
             }
         })
         .catch(err => {
+            console.log("error catch");
             res.status(500).send({
                 message: "Error updating Patient with id=" + id
             });

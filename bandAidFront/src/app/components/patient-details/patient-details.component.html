@@ -24,6 +24,14 @@
         <label><strong>Room Number:</strong></label>
         {{ currentPatient.room_number }}
       </div>
+      <div>
+        <label><strong>Doctor:</strong></label>
+        {{ currentPatient.doctor_name }}
+      </div>
+      <div>
+        <label><strong>Provider:</strong></label>
+        {{ currentPatient.provider_name }}
+      </div>
 
       <a
         class="badge badge-warning"
@@ -84,16 +92,6 @@
             />
           </div>
           <div class="form-group">
-            <label for="condition_name">Condition Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="condition_name"
-              [(ngModel)]="currentPatient.condition_name"
-              name="condition_namae"
-            />
-          </div>
-          <div class="form-group">
             <label for="room_number">Room Number</label>
             <input
               type="text"
@@ -104,26 +102,27 @@
             />
           </div>
 
-  <!--      <div class="form-group">-->
-  <!--        <label><strong>Status:</strong></label>-->
-  <!--        {{ currentDoctor.published ? "Published" : "Pending" }}-->
-  <!--      </div>-->
-      </form>
+          <div>
+            <app-conditions-list
+              (selectCondition)="updateCondition($event)"
+              [inParent]="true"
+            ></app-conditions-list>
+          </div>
 
-  <!--    <button-->
-  <!--      class="badge badge-primary mr-2"-->
-  <!--      *ngIf="currentDoctor.published"-->
-  <!--      (click)="updatePublished(false)"-->
-  <!--    >-->
-  <!--      UnPublish-->
-  <!--    </button>-->
-  <!--    <button-->
-  <!--      *ngIf="!currentDoctor.published"-->
-  <!--      class="badge badge-primary mr-2"-->
-  <!--      (click)="updatePublished(true)"-->
-  <!--    >-->
-  <!--      Publish-->
-  <!--    </button>-->
+          <div>
+            <app-doctors-list
+              (selectDoctor)="updateDoctor($event)"
+              [inParent]="true"
+            ></app-doctors-list>
+          </div>
+
+          <div>
+            <app-providers-list
+              (selectProvider)="updateProvider($event)"
+              [inParent]="true"
+            ></app-providers-list>
+          </div>
+      </form>
 
       <button class="badge badge-danger mr-2" (click)="deletePatient()">
         Patient

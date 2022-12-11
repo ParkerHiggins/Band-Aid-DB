@@ -65,8 +65,9 @@ import { ProviderListComponent } from './components/provider-list/provider-list.
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
+  exports: [],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })

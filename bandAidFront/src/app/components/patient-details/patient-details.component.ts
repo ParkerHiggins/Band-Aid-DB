@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PatientService } from 'src/app/services/patient.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Patient } from 'src/app/models/patient.model';
+import {Condition} from "../../models/condition.model";
+import {Provider} from "../../models/provider.model";
+import {Doctor} from "../../models/doctor.model";
 
 @Component({
   selector: 'app-patient-details',
@@ -18,10 +21,16 @@ export class PatientDetailsComponent implements OnInit {
     gender: '',
     race: '',
     condition_name: '',
-    room_number: 0
+    room_number: 0,
+    provider_name: '',
+    doctor_name: ''
   };
 
   message = '';
+
+  condition: Condition = {};
+  provider: Provider = {};
+  doctor: Doctor = {};
 
   constructor(
     private patientService: PatientService,
@@ -35,6 +44,19 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
 
+  updateCondition(condition: Condition): void {
+    this.condition = condition;
+    this.currentPatient.condition_name = condition.condition_name;
+  }
+
+  updateProvider(provider: Provider): void {
+    this.provider = provider;
+  }
+
+  updateDoctor(doctor: Doctor): void {
+    this.doctor = doctor;
+  }
+
   getPatient(id: string): void {
     this.patientService.get(id)
       .subscribe({
@@ -46,31 +68,24 @@ export class PatientDetailsComponent implements OnInit {
       });
   }
 
-  // todo: might need to get rid of this sone
-  // updatePublished(status: boolean): void {
-  //   const data = {
-  //     name: this.currentDoctor.name,
-  //     description: this.currentDoctor.description,
-  //     published: status
-  //   };
-  //
-  //   this.message = '';
-  //
-  //   this.doctorService.update(this.currentDoctor.id, data)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log(res);
-  //         this.currentDoctor.published = status;
-  //         this.message = res.message ? res.message : 'The status was updated successfully!';
-  //       },
-  //       error: (e) => console.error(e)
-  //     });
-  // }
-
   updatePatient(): void {
     this.message = '';
 
-    this.patientService.update(this.currentPatient.id, this.currentPatient)
+    const data = {
+      name: this.currentPatient.name,
+      age: this.currentPatient.age,
+      gender: this.currentPatient.gender,
+      race: this.currentPatient.race,
+      condition_name: this.condition.condition_name,
+      room_number: this.currentPatient.room_number,
+      conditionId: this.condition.id,
+      provider_name: this.provider.name,
+      providerId: this.provider.id,
+      doctor_name: this.doctor.name,
+      doctorId: this.doctor.id
+    };
+
+    this.patientService.update(this.currentPatient.id, data)
       .subscribe({
         next: (res) => {
           console.log(res);

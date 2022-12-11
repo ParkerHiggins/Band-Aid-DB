@@ -1,7 +1,9 @@
 const db = require("../models");
 const condition_treatment = require("./condition.controller");
+const patient_condition = require("./patient.controller");
 const Condition = db.condition;
 const Treatment = db.treatment;
+const Patient = db.patient;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Condition
@@ -72,6 +74,14 @@ exports.findAll = (req, res) => {
         where: condition,
         include: [
             {
+                model: Patient,
+                as: "patients",
+                attributes: ["id", "name", "age", "gender", "race"],
+                through: {
+                    attributes: [],
+                }
+            },
+            {
                 model: Treatment,
                 as: "treatments",
                 attributes: ["id", "name", "duration", "cost"],
@@ -117,11 +127,14 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
+    const treatmentId = req.body.treatmentId;
+
     Condition.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
+                condition_treatment.addTreatment(id, treatmentId);
                 res.send({
                     message: "Condition was updated successfully."
                 });

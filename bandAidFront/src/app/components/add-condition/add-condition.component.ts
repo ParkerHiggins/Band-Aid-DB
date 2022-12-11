@@ -30,8 +30,6 @@ export class AddConditionComponent implements OnInit {
   }
 
   saveCondition(): void {
-    console.log("save object:");
-    console.log(this.condition);
     const data = {
       condition_name: this.condition.condition_name,
       symptoms: this.condition.symptoms,

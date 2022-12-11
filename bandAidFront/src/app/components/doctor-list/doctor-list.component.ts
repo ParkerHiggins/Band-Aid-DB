@@ -37,8 +37,8 @@ export class DoctorListComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  setActiveDoctor(tutorial: Doctor, index: number): void {
-    this.currentDoctor = tutorial;
+  setActiveDoctor(doctor: Doctor, index: number): void {
+    this.currentDoctor = doctor;
     this.currentIndex = index;
   }
 

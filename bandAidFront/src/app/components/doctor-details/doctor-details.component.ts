@@ -33,6 +33,8 @@ export class DoctorDetailsComponent implements OnInit {
   }
 
   getDoctor(id: string): void {
+    console.log("getDoctor w/ id:");
+    console.log(id);
     this.doctorService.get(id)
       .subscribe({
         next: (data) => {

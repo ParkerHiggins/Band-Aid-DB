@@ -1,0 +1,107 @@
+<div *ngIf="viewMode; else editable">
+  {{ currentProvider }}
+  {{ currentProvider.id }}
+  {{ currentProvider.name }}
+  <div *ngIf="currentProvider.id">
+    <h4>Provider</h4>
+    <div>
+      <label><strong>Name:</strong></label> {{ currentProvider.name }}
+    </div>
+    <div>
+      <label><strong>Coverage Offered:</strong></label>
+      {{ currentProvider.coverage_offered }}
+    </div>
+    <div>
+      <label><strong>Phone Number:</strong></label>
+      {{ currentProvider.phone_number }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/providers/{{ currentProvider.id }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentProvider">
+    <br />
+    <p>Please click on a Provider...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentProvider.id" class="edit-form">
+    <h4>Provider</h4>
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentProvider.name"
+          name="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="coverage_offered">Coverage Offered</label>
+        <input
+          type="text"
+          class="form-control"
+          id="coverage_offered"
+          [(ngModel)]="currentProvider.coverage_offered"
+          name="coverage_offered"
+        />
+      </div>
+      <div class="form-group">
+        <label for="phone_number">Phone Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="phone_number"
+          [(ngModel)]="currentProvider.phone_number"
+          name="phone_number"
+        />
+      </div>
+
+      <!--      <div class="form-group">-->
+      <!--        <label><strong>Status:</strong></label>-->
+      <!--        {{ currentProvider.published ? "Published" : "Pending" }}-->
+      <!--      </div>-->
+    </form>
+
+    <!--    <button-->
+    <!--      class="badge badge-primary mr-2"-->
+    <!--      *ngIf="currentProvider.published"-->
+    <!--      (click)="updatePublished(false)"-->
+    <!--    >-->
+    <!--      UnPublish-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      *ngIf="!currentProvider.published"-->
+    <!--      class="badge badge-primary mr-2"-->
+    <!--      (click)="updatePublished(true)"-->
+    <!--    >-->
+    <!--      Publish-->
+    <!--    </button>-->
+
+    <button class="badge badge-danger mr-2" (click)="deleteProvider()">
+      Delete
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateProvider()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentProvider.id">
+    <br />
+    <p>Cannot access this Provider...</p>
+  </div>
+</ng-template>

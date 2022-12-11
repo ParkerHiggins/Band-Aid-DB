@@ -1,0 +1,45 @@
+<div class="list row">
+  <div class="col-md-8">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by name"
+        [(ngModel)]="name"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="searchName()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4>Providers List</h4>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let provider of providers; let i = index"
+        [class.active]="i == currentIndex"
+        (click)="setActiveProvider(provider, i)"
+      >
+        {{ provider.name }}
+        {{ provider.id }}
+      </li>
+    </ul>
+
+    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllProviders()">
+      Remove All
+    </button>
+  </div>
+  <div class="col-md-6">
+    <app-provider-details
+      [viewMode]="true"
+      [currentProvider]="currentProvider"
+    ></app-provider-details>
+  </div>
+</div>

@@ -1,4 +1,7 @@
 <div *ngIf="viewMode; else editable">
+  {{ currentDoctor }}
+  {{ currentDoctor.id }}
+  {{ currentDoctor.name }}
   <div *ngIf="currentDoctor.id">
     <h4>Doctor</h4>
     <div>
@@ -58,7 +61,7 @@
           class="form-control"
           id="specialty"
           [(ngModel)]="currentDoctor.specialty"
-          name="age"
+          name="specialty"
         />
       </div>
 

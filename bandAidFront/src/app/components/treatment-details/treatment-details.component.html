@@ -1,0 +1,104 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentTreatment.id">
+    <h4>Treatment</h4>
+    <div>
+      <label><strong>Name:</strong></label> {{ currentTreatment.name }}
+    </div>
+    <div>
+      <label><strong>Duration:</strong></label>
+      {{ currentTreatment.duration }}
+    </div>
+    <div>
+      <label><strong>Cost:</strong></label>
+      {{ currentTreatment.cost }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/treatments/{{ currentTreatment.id }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentTreatment">
+    <br />
+    <p>Please click on a Treatment...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentTreatment.id" class="edit-form">
+    <h4>Treatment</h4>
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentTreatment.name"
+          name="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="duration">Duration</label>
+        <input
+          type="text"
+          class="form-control"
+          id="duration"
+          [(ngModel)]="currentTreatment.duration"
+          name="duration"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cost">Cost</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cost"
+          [(ngModel)]="currentTreatment.cost"
+          name="cost"
+        />
+      </div>
+
+      <!--      <div class="form-group">-->
+      <!--        <label><strong>Status:</strong></label>-->
+      <!--        {{ currentTreatment.published ? "Published" : "Pending" }}-->
+      <!--      </div>-->
+    </form>
+
+    <!--    <button-->
+    <!--      class="badge badge-primary mr-2"-->
+    <!--      *ngIf="currentTreatment.published"-->
+    <!--      (click)="updatePublished(false)"-->
+    <!--    >-->
+    <!--      UnPublish-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      *ngIf="!currentTreatment.published"-->
+    <!--      class="badge badge-primary mr-2"-->
+    <!--      (click)="updatePublished(true)"-->
+    <!--    >-->
+    <!--      Publish-->
+    <!--    </button>-->
+
+    <button class="badge badge-danger mr-2" (click)="deleteTreatment()">
+      Delete
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateTreatment()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentTreatment.id">
+    <br />
+    <p>Cannot access this Treatment...</p>
+  </div>
+</ng-template>

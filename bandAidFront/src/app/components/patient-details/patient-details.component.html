@@ -1,0 +1,146 @@
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentPatient.id">
+      <h4>Patient</h4>
+      <div>
+        <label><strong>Name:</strong></label> {{ currentPatient.name }}
+      </div>
+      <div>
+        <label><strong>Age:</strong></label>
+        {{ currentPatient.age }}
+      </div>
+      <div>
+        <label><strong>Gender:</strong></label>
+        {{ currentPatient.gender }}
+      </div>
+      <div>
+        <label><strong>Race:</strong></label>
+        {{ currentPatient.race }}
+      </div>
+      <div>
+        <label><strong>Condition Name:</strong></label>
+        {{ currentPatient.condition_name }}
+      </div>
+      <div>
+        <label><strong>Room Number:</strong></label>
+        {{ currentPatient.room_number }}
+      </div>
+
+      <a
+        class="badge badge-warning"
+        routerLink="/patients/{{ currentPatient.id }}"
+      >
+        Edit
+      </a>
+    </div>
+
+    <div *ngIf="!currentPatient">
+      <br />
+      <p>Please click on a Patient...</p>
+    </div>
+  </div>
+
+  <ng-template #editable>
+    <div *ngIf="currentPatient.id" class="edit-form">
+      <h4>Patient</h4>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            [(ngModel)]="currentPatient.name"
+            name="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input
+            type="text"
+            class="form-control"
+            id="age"
+            [(ngModel)]="currentPatient.age"
+            name="age"
+          />
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <input
+            type="text"
+            class="form-control"
+            id="gender"
+            [(ngModel)]="currentPatient.gender"
+            name="gender"
+          />
+        </div>
+        <div class="form-group">
+            <label for="race">Race</label>
+            <input
+              type="text"
+              class="form-control"
+              id="race"
+              [(ngModel)]="currentPatient.race"
+              name="race"
+            />
+          </div>
+          <div class="form-group">
+            <label for="condition_name">Condition Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="condition_name"
+              [(ngModel)]="currentPatient.condition_name"
+              name="condition_namae"
+            />
+          </div>
+          <div class="form-group">
+            <label for="room_number">Room Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="room_number"
+              [(ngModel)]="currentPatient.room_number"
+              name="room_number"
+            />
+          </div>
+
+  <!--      <div class="form-group">-->
+  <!--        <label><strong>Status:</strong></label>-->
+  <!--        {{ currentDoctor.published ? "Published" : "Pending" }}-->
+  <!--      </div>-->
+      </form>
+
+  <!--    <button-->
+  <!--      class="badge badge-primary mr-2"-->
+  <!--      *ngIf="currentDoctor.published"-->
+  <!--      (click)="updatePublished(false)"-->
+  <!--    >-->
+  <!--      UnPublish-->
+  <!--    </button>-->
+  <!--    <button-->
+  <!--      *ngIf="!currentDoctor.published"-->
+  <!--      class="badge badge-primary mr-2"-->
+  <!--      (click)="updatePublished(true)"-->
+  <!--    >-->
+  <!--      Publish-->
+  <!--    </button>-->
+
+      <button class="badge badge-danger mr-2" (click)="deletePatient()">
+        Patient
+      </button>
+
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updatePatient()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+
+    <div *ngIf="!currentPatient.id">
+      <br />
+      <p>Cannot access this Patient...</p>
+    </div>
+  </ng-template>

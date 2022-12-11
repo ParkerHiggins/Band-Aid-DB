@@ -5,6 +5,18 @@ import { DoctorListComponent } from './components/doctor-list/doctor-list.compon
 import { DoctorDetailsComponent } from './components/doctor-details/doctor-details.component';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 
+import { TreatmentListComponent } from './components/treatment-list/treatment-list.component';
+import { TreatmentDetailsComponent } from './components/treatment-details/treatment-details.component';
+import { AddTreatmentComponent } from './components/add-treatment/add-treatment.component';
+
+import {ConditionListComponent} from "./components/condition-list/condition-list.component";
+import {ConditionDetailsComponent} from "./components/condition-details/condition-details.component";
+import {AddConditionComponent} from "./components/add-condition/add-condition.component";
+
+import {ProviderListComponent} from "./components/provider-list/provider-list.component";
+import {ProviderDetailsComponent} from "./components/provider-details/provider-details.component";
+import {AddProviderComponent} from "./components/add-provider/add-provider.component";
+
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -18,6 +30,18 @@ const routes: Routes = [
   { path: 'doctors', component: DoctorListComponent },
   { path: 'doctors/:id', component: DoctorDetailsComponent },
   { path: 'add', component: AddDoctorComponent },
+
+  { path: 'treatments', component: TreatmentListComponent },
+  { path: 'treatments/:id', component: TreatmentDetailsComponent },
+  { path: 'addTreatment', component: AddTreatmentComponent },
+
+  { path: 'conditions', component: ConditionListComponent },
+  { path: 'conditions/:id', component: ConditionDetailsComponent },
+  { path: 'addCondition', component: AddConditionComponent },
+
+  { path: 'providers', component: ProviderListComponent },
+  { path: 'providers/:id', component: ProviderDetailsComponent },
+  { path: 'addProvider', component: AddProviderComponent },
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },

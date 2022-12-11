@@ -22,39 +22,50 @@ db.sequelize = sequelize;
 
 db.patient = require("../models/patient.model.js")(sequelize, Sequelize);
 db.doctor = require("../models/doctor.model.js")(sequelize, Sequelize);
-db.insurance_provider = require("../models/insurance_provider.model.js")(sequelize, Sequelize);
+db.provider = require("../models/provider.model.js")(sequelize, Sequelize);
 db.treatment = require("../models/treatment.model.js")(sequelize, Sequelize);
 db.condition = require("../models/condition.model.js")(sequelize, Sequelize);
 
 db.patient.belongsToMany(db.condition, {
     through: "patient_condition",
     foreignKey: "patient_id",
-    otherKey: "condition_name"
+    otherKey: "condition_id"
 });
 db.condition.belongsToMany(db.patient, {
     through: "patient_condition",
-    foreignKey: "condition_name",
+    foreignKey: "condition_id",
     otherKey: "patient_id"
 });
 // todo: not sure if this is correct, may have to check names behavior in ins_treat
-db.insurance_provider.belongsToMany(db.treatment, {
+db.provider.belongsToMany(db.treatment, {
     through: "insurance_treatment",
-    foreignKey: "provider_name",
-    otherKey: "treatment_name"
+    foreignKey: "provider_id",
+    otherKey: "treatment_id"
 });
-db.treatment.belongsToMany(db.insurance_provider, {
+db.treatment.belongsToMany(db.provider, {
     through: "insurance_treatment",
-    foreignKey: "treatment_name",
-    otherKey: "provider_name"
+    foreignKey: "treatment_id",
+    otherKey: "provider_id"
 });
-db.condition.hasMany(db.treatment, {});
-db.treatment.belongsTo(db.condition, {
-    foreignKey: "condition_name",
+db.condition.belongsToMany(db.treatment, {
+    through: "condition_treatment",
+    foreignKey: "condition_id",
+    otherKey: "treatment_id",
 });
-db.insurance_provider.hasMany(db.patient, {});
-db.patient.belongsTo(db.insurance_provider, {
+db.treatment.belongsToMany(db.condition, {
+    through: "condition_treatment",
+    foreignKey: "treatment_id",
+    otherKey: "condition_id",
+});
+
+// db.condition.hasMany(db.treatment, {});
+// db.treatment.belongsTo(db.condition, {
+//     foreignKey: "condition_id",
+// });
+db.provider.hasMany(db.patient, {});
+db.patient.belongsTo(db.provider, {
     foreignKey: {
-        name: "provider_name"
+        name: "provider_id"
     }
     // foreignKey: "provider_name",
 });

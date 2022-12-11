@@ -1,0 +1,107 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentCondition.id">
+    <h4>Condition</h4>
+    <div>
+      <label><strong>Condition Name:</strong></label> {{ currentCondition.condition_name }}
+    </div>
+    <div>
+      <label><strong>Symptoms:</strong></label>
+      {{ currentCondition.symptoms }}
+    </div>
+    <div>
+      <label><strong>Treatment Name:</strong></label>
+      {{ currentCondition.treatment_name }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/conditions/{{ currentCondition.id }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentCondition">
+    <br />
+    <p>Please click on a Condition...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div class="col-md-6">
+    <div *ngIf="currentCondition.id" class="edit-form">
+      <h4>Condition</h4>
+      <form>
+        <div class="form-group">
+          <label for="condition_name">Condition Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="condition_name"
+            [(ngModel)]="currentCondition.condition_name"
+            name="condition_name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="symptoms">Symptoms</label>
+          <input
+            type="text"
+            class="form-control"
+            id="symptoms"
+            [(ngModel)]="currentCondition.symptoms"
+            name="symptoms"
+          />
+        </div>
+        <div class="form-group">
+          <label for="treatment_name">Treatment Name</label>
+<!--          TODO: maybe change this from 'text' to 'textarea'-->
+          <input
+            type="text"
+            class="form-control"
+            id="treatment_name"
+            [(ngModel)]="currentCondition.treatment_name"
+            name="treatment_name"
+          />
+        </div>
+
+        <!--      <div class="form-group">-->
+        <!--        <label><strong>Status:</strong></label>-->
+        <!--        {{ currentCondition.published ? "Published" : "Pending" }}-->
+        <!--      </div>-->
+      </form>
+
+      <!--    <button-->
+      <!--      class="badge badge-primary mr-2"-->
+      <!--      *ngIf="currentCondition.published"-->
+      <!--      (click)="updatePublished(false)"-->
+      <!--    >-->
+      <!--      UnPublish-->
+      <!--    </button>-->
+      <!--    <button-->
+      <!--      *ngIf="!currentCondition.published"-->
+      <!--      class="badge badge-primary mr-2"-->
+      <!--      (click)="updatePublished(true)"-->
+      <!--    >-->
+      <!--      Publish-->
+      <!--    </button>-->
+
+      <button class="badge badge-danger mr-2" (click)="deleteCondition()">
+        Delete
+      </button>
+
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateCondition()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+
+    <div *ngIf="!currentCondition.id">
+      <br />
+      <p>Cannot access this Condition...</p>
+    </div>
+  </div>
+</ng-template>

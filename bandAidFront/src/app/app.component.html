@@ -20,6 +20,24 @@
       <li class="nav-item">
         <a href="/add" class="nav-link" *ngIf="isLoggedIn" routerLink="add">Add</a>
       </li>
+      <li class="nav-item">
+        <a href="/treatments" class="nav-link" *ngIf="isLoggedIn" routerLink="treatments">Treatments</a>
+      </li>
+      <li class="nav-item">
+        <a href="/addTreatment" class="nav-link" *ngIf="isLoggedIn" routerLink="addTreatment">Add Treatment</a>
+      </li>
+      <li class="nav-item">
+        <a href="/conditions" class="nav-link" *ngIf="isLoggedIn" routerLink="conditions">Conditions</a>
+      </li>
+      <li class="nav-item">
+        <a href="/addCondition" class="nav-link" *ngIf="isLoggedIn" routerLink="addCondition">Add Condition</a>
+      </li>
+      <li class="nav-item">
+        <a href="/providers" class="nav-link" *ngIf="isLoggedIn" routerLink="providers">Providers</a>
+      </li>
+      <li class="nav-item">
+        <a href="/addProvider" class="nav-link" *ngIf="isLoggedIn" routerLink="addProvider">Add Provider</a>
+      </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">

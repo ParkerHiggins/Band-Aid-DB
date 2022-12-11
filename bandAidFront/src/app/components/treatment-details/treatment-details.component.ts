@@ -34,8 +34,6 @@ export class TreatmentDetailsComponent implements OnInit {
   }
 
   getTreatment(id: string): void {
-    console.log("getTreatment w/ id:");
-    console.log(id);
     this.treatmentService.get(id)
       .subscribe({
         next: (data) => {

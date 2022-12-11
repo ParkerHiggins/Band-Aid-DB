@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
         },
         room_number: {
             type: Sequelize.INTEGER
+        },
+        provider_name: {
+            type: Sequelize.STRING
+        },
+        doctor_name: {
+            type: Sequelize.STRING
         }
     });
     return Patient;

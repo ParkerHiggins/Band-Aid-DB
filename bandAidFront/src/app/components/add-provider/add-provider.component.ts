@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Provider } from 'src/app/models/provider.model';
 import { ProviderService } from 'src/app/services/provider.service';
+import {Treatment} from "../../models/treatment.model";
 
 @Component({
   selector: 'app-add-provider',
@@ -16,16 +17,23 @@ export class AddProviderComponent implements OnInit {
   };
   submitted = false;
 
+  treatment: Treatment = {};
+
   constructor(private providerService: ProviderService) { }
 
   ngOnInit(): void {
   }
 
+  updateTreatment(treatment: Treatment): void {
+    this.treatment = treatment;
+  }
+
   saveProvider(): void {
     const data = {
       name: this.provider.name,
-      duration: this.provider.coverage_offered,
-      cost: this.provider.phone_number
+      coverage_offered: this.treatment.name,
+      phone_number: this.provider.phone_number,
+      treatmentId: this.treatment.id
     };
 
     this.providerService.create(data)

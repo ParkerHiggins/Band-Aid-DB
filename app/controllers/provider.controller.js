@@ -1,5 +1,8 @@
 const db = require("../models");
+const provider_treatment = require("./provider.controller");
+const patient_condition = require("./patient.controller");
 const Provider = db.provider;
+const Treatment = db.treatment;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Provider
@@ -12,16 +15,20 @@ exports.create = (req, res) => {
         return;
     }
 
+    const treatmentId = req.body.treatmentId;
+
     // Create a Provider
     const provider = {
         name: req.body.name,
-        duration: req.body.coverage_offered,
-        cost: req.body.phone_number
+        coverage_offered: req.body.coverage_offered,
+        phone_number: req.body.phone_number
     };
 
     // Save Provider in the database
     Provider.create(provider)
         .then(data => {
+            const providerId = data.id;
+            provider_treatment.addTreatment(providerId, treatmentId);
             res.send(data);
         })
         .catch(err => {
@@ -32,12 +39,50 @@ exports.create = (req, res) => {
         });
 };
 
+exports.addTreatment = async (providerId, treatmentId) => {
+    console.log("providerId:");
+    console.log(providerId);
+    return await Provider.findByPk(providerId)
+        .then((provider) => {
+            if (!provider) {
+                console.log("Provider not found!");
+                return null;
+            }
+            return Treatment.findByPk(treatmentId).then((treatment) => {
+                if (!treatment) {
+                    console.log("Treatment not found!");
+                    return null;
+                }
+
+                provider.addTreatment(treatment);
+                console.log(`>> added Treatment id=${treatment.id} to Provider id=${provider.id}`);
+                return provider;
+            });
+        })
+        .catch((err) => {
+            console.log(">> Error while adding Treatment to Provider: ", err);
+        });
+};
+
 // Retrieve all Providers from the database.
 exports.findAll = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-    Provider.findAll({ where: condition })
+    Provider.findAll({
+        where: condition,
+        include: [
+            {
+                model: Treatment,
+                as: "treatments",
+                attributes: ["id", "name", "duration", "cost"],
+                through: {
+                    attributes: [],
+                }
+            }
+        ]
+
+    })
         .then(data => {
             res.send(data);
         })
@@ -77,11 +122,14 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
+    const treatmentId = req.body.treatmentId;
+
     Provider.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
+                provider_treatment.addTreatment(id, treatmentId);
                 res.send({
                     message: "Provider was updated successfully."
                 });

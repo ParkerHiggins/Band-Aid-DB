@@ -9,8 +9,7 @@ import { TreatmentService } from 'src/app/services/treatment.service';
 })
 export class TreatmentListComponent implements OnInit {
 
-  @Input() inCondition = false;
-
+  @Input() inParent = false;
   @Output() selectTreatment: EventEmitter<Treatment> = new EventEmitter();
 
   treatments?: Treatment[];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 
@@ -8,6 +8,9 @@ import { DoctorService } from 'src/app/services/doctor.service';
   styleUrls: ['./doctor-list.component.css']
 })
 export class DoctorListComponent implements OnInit {
+
+  @Input() inParent = false;
+  @Output() selectDoctor: EventEmitter<Doctor> = new EventEmitter();
 
   doctors?: Doctor[];
   currentDoctor: Doctor = {};
@@ -40,6 +43,12 @@ export class DoctorListComponent implements OnInit {
   setActiveDoctor(doctor: Doctor, index: number): void {
     this.currentDoctor = doctor;
     this.currentIndex = index;
+  }
+
+  setActiveDoctorChild(doctor: Doctor, index: number): void {
+    this.currentDoctor = doctor;
+    this.currentIndex = index;
+    this.selectDoctor.emit(this.currentDoctor);
   }
 
   removeAllDoctors(): void {

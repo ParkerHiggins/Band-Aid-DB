@@ -13,16 +13,16 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="coverage_offered">coverage_offered</label>
-        <input
-          class="form-control"
-          id="coverage_offered"
-          required
-          [(ngModel)]="provider.coverage_offered"
-          name="coverage_offered"
-        />
-      </div>
+<!--      <div class="form-group">-->
+<!--        <label for="coverage_offered">coverage_offered</label>-->
+<!--        <input-->
+<!--          class="form-control"-->
+<!--          id="coverage_offered"-->
+<!--          required-->
+<!--          [(ngModel)]="provider.coverage_offered"-->
+<!--          name="coverage_offered"-->
+<!--        />-->
+<!--      </div>-->
 
       <div class="form-group">
         <label for="phone_number">phone_number</label>
@@ -33,6 +33,13 @@
           [(ngModel)]="provider.phone_number"
           name="phone_number"
         />
+      </div>
+
+      <div>
+        <app-treatments-list
+          (selectTreatment)="updateTreatment($event)"
+          [inParent]="true"
+        ></app-treatments-list>
       </div>
 
       <button (click)="saveProvider()" class="btn btn-success">Submit</button>

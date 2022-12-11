@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ProviderService } from 'src/app/services/provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Provider } from 'src/app/models/provider.model';
+import { Treatment } from "../../models/treatment.model";
 
 @Component({
   selector: 'app-provider-details',
@@ -20,6 +21,8 @@ export class ProviderDetailsComponent implements OnInit {
 
   message = '';
 
+  treatment: Treatment = {};
+
   constructor(
     private providerService: ProviderService,
     private route: ActivatedRoute,
@@ -31,6 +34,10 @@ export class ProviderDetailsComponent implements OnInit {
       this.message = '';
       this.getProvider(this.route.snapshot.params["id"]);
     }
+  }
+
+  updateTreatment(treatment: Treatment): void {
+    this.treatment = treatment;
   }
 
   getProvider(id: string): void {
@@ -46,31 +53,17 @@ export class ProviderDetailsComponent implements OnInit {
       });
   }
 
-  // todo: might need to get rid of this sone
-  // updatePublished(status: boolean): void {
-  //   const data = {
-  //     name: this.currentProvider.name,
-  //     description: this.currentProvider.description,
-  //     published: status
-  //   };
-  //
-  //   this.message = '';
-  //
-  //   this.providerService.update(this.currentProvider.id, data)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log(res);
-  //         this.currentProvider.published = status;
-  //         this.message = res.message ? res.message : 'The status was updated successfully!';
-  //       },
-  //       error: (e) => console.error(e)
-  //     });
-  // }
-
   updateProvider(): void {
     this.message = '';
 
-    this.providerService.update(this.currentProvider.id, this.currentProvider)
+    const data = {
+      name: this.currentProvider.name,
+      coverage_offered: this.treatment.name,
+      phone_number: this.currentProvider.phone_number,
+      treatmentId: this.treatment.id
+    };
+
+    this.providerService.update(this.currentProvider.id, data)
       .subscribe({
         next: (res) => {
           console.log(res);

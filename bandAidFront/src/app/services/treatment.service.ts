@@ -17,8 +17,6 @@ export class TreatmentService {
   }
 
   get(id: any): Observable<Treatment> {
-    console.log("id:");
-    console.log(id);
     return this.http.get(`${baseUrl}/${id}`);
   }
 

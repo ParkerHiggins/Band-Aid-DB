@@ -27,10 +27,9 @@
 <!--      multiple class="form-control"-->
 
       <div>
-<!--        TODO: Pass in args to ensure that only the treatment list is displayed-->
         <app-treatments-list
           (selectTreatment)="updateTreatment($event)"
-          [inCondition]="true"
+          [inParent]="true"
         ></app-treatments-list>
       </div>
 

@@ -1,44 +1,70 @@
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by name"
-        [(ngModel)]="name"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="searchName()"
+<div *ngIf="inParent; else standAlone">
+  <div class="list row">
+    <div class="col-md-6">
+      <label for="condition_name">Conditions</label>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let condition of conditions; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveConditionChild(condition, i)"
         >
-          Searchx
-        </button>
-      </div>
+          {{ condition.condition_name }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <app-condition-details
+        [viewMode]="true"
+        [currentCondition]="currentCondition"
+      ></app-condition-details>
     </div>
   </div>
-  <div class="col-md-6">
-    <h4>Conditions List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let condition of conditions; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveCondition(condition, i)"
-      >
-        {{ condition.condition_name }}
-      </li>
-    </ul>
-
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllConditions()">
-      Remove All
-    </button>
-  </div>
-  <div class="col-md-6">
-    <app-condition-details
-      [viewMode]="true"
-      [currentCondition]="currentCondition"
-    ></app-condition-details>
-  </div>
 </div>
+
+<ng-template #standAlone>
+  <div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name"
+          [(ngModel)]="name"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchName()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Conditions List</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let condition of conditions; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveCondition(condition, i)"
+        >
+          {{ condition.condition_name }}
+        </li>
+      </ul>
+
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllConditions()">
+        Remove All
+      </button>
+    </div>
+    <div class="col-md-6">
+      <app-condition-details
+        [viewMode]="true"
+        [currentCondition]="currentCondition"
+      ></app-condition-details>
+    </div>
+  </div>
+</ng-template>

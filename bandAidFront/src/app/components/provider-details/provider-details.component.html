@@ -1,7 +1,4 @@
 <div *ngIf="viewMode; else editable">
-  {{ currentProvider }}
-  {{ currentProvider.id }}
-  {{ currentProvider.name }}
   <div *ngIf="currentProvider.id">
     <h4>Provider</h4>
     <div>
@@ -44,16 +41,7 @@
           name="name"
         />
       </div>
-      <div class="form-group">
-        <label for="coverage_offered">Coverage Offered</label>
-        <input
-          type="text"
-          class="form-control"
-          id="coverage_offered"
-          [(ngModel)]="currentProvider.coverage_offered"
-          name="coverage_offered"
-        />
-      </div>
+
       <div class="form-group">
         <label for="phone_number">Phone Number</label>
         <input
@@ -65,26 +53,13 @@
         />
       </div>
 
-      <!--      <div class="form-group">-->
-      <!--        <label><strong>Status:</strong></label>-->
-      <!--        {{ currentProvider.published ? "Published" : "Pending" }}-->
-      <!--      </div>-->
+      <div>
+        <app-treatments-list
+          (selectTreatment)="updateTreatment($event)"
+          [inParent]="true"
+        ></app-treatments-list>
+      </div>
     </form>
-
-    <!--    <button-->
-    <!--      class="badge badge-primary mr-2"-->
-    <!--      *ngIf="currentProvider.published"-->
-    <!--      (click)="updatePublished(false)"-->
-    <!--    >-->
-    <!--      UnPublish-->
-    <!--    </button>-->
-    <!--    <button-->
-    <!--      *ngIf="!currentProvider.published"-->
-    <!--      class="badge badge-primary mr-2"-->
-    <!--      (click)="updatePublished(true)"-->
-    <!--    >-->
-    <!--      Publish-->
-    <!--    </button>-->
 
     <button class="badge badge-danger mr-2" (click)="deleteProvider()">
       Delete

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Provider } from 'src/app/models/provider.model';
 import { ProviderService } from 'src/app/services/provider.service';
 
@@ -8,6 +8,9 @@ import { ProviderService } from 'src/app/services/provider.service';
   styleUrls: ['./provider-list.component.css']
 })
 export class ProviderListComponent implements OnInit {
+
+  @Input() inParent = false;
+  @Output() selectProvider: EventEmitter<Provider> = new EventEmitter();
 
   providers?: Provider[];
   currentProvider: Provider = {};
@@ -40,15 +43,12 @@ export class ProviderListComponent implements OnInit {
   setActiveProvider(provider: Provider, index: number): void {
     this.currentProvider = provider;
     this.currentIndex = index;
+  }
 
-    console.log("currentProvider - id");
-    console.log(this.currentProvider.id);
-    console.log("currentProvider - name");
-    console.log(this.currentProvider.name);
-    console.log("currentProvider - active");
-    console.log(this.currentProvider);
-    console.log("current Index - active");
-    console.log(this.currentIndex);
+  setActiveProviderChild(provider: Provider, index: number): void {
+    this.currentProvider = provider;
+    this.currentIndex = index;
+    this.selectProvider.emit(this.currentProvider);
   }
 
   removeAllProviders(): void {

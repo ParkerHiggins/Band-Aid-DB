@@ -47,17 +47,6 @@
       </div>
 
       <div class="form-group">
-        <label for="condition_name">Condition</label>
-        <input
-          class="form-control"
-          id="condition_name"
-          required
-          [(ngModel)]="patient.condition_name"
-          name="description"
-        />
-      </div>
-
-      <div class="form-group">
         <label for="room_number">Room Number</label>
         <input
           class="form-control"
@@ -67,6 +56,38 @@
           name="description"
         />
       </div>
+
+      <div>
+        <app-conditions-list
+          (selectCondition)="updateCondition($event)"
+          [inParent]="true"
+        ></app-conditions-list>
+      </div>
+
+      <div>
+        <app-doctors-list
+          (selectDoctor)="updateDoctor($event)"
+          [inParent]="true"
+        ></app-doctors-list>
+      </div>
+
+      <div>
+        <app-providers-list
+          (selectProvider)="updateProvider($event)"
+          [inParent]="true"
+        ></app-providers-list>
+      </div>
+
+<!--      <div class="form-group">-->
+<!--        <label for="condition_name">Condition</label>-->
+<!--        <input-->
+<!--          class="form-control"-->
+<!--          id="condition_name"-->
+<!--          required-->
+<!--          [(ngModel)]="patient.condition_name"-->
+<!--          name="description"-->
+<!--        />-->
+<!--      </div>-->
 
       <button class="btn btn-success" (click)="savePatient()">Submit</button>
     </div>

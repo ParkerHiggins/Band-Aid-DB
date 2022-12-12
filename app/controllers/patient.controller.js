@@ -1,5 +1,6 @@
 const db = require("../models");
 const patient_condition = require("./patient.controller");
+const {Transaction} = require("sequelize");
 const Patient = db.patient;
 const Condition = db.condition;
 const Provider = db.provider;
@@ -76,41 +77,49 @@ exports.addCondition = async (patientId, conditionId) => {
 
 // Retrieve all Patients from the database.
 exports.findAll = (req, res) => {
-    const name = req.query.name;
-    var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+    const transactionInstance = db.sequelize.transaction();
+    transactionInstance.isolationLevel = Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED
+    try {
+        const name = req.query.name;
+        var condition = name ? {name: {[Op.like]: `%${name}%`}} : null;
 
-    Patient.findAll({
-        where: condition,
-        include: [
-            {
-                model: Condition,
-                as: "conditions",
-                attributes: ["id", "condition_name", "symptoms", "treatment_name"],
-                through: {
-                    attributes: [],
-                }
-            },
-            "doctors",
-            "providers",
-            // {
-            //     model: Provider,
-            //     as: "providers",
-            //     attributes: ["id", "name", "coverage_offered", "phone_number"],
-            //     through: {
-            //         attributes: [],
-            //     }
-            // }
-        ]
-    })
-        .then(data => {
-            res.send(data);
+        Patient.findAll({
+            where: condition,
+            include: [
+                {
+                    model: Condition,
+                    as: "conditions",
+                    attributes: ["id", "condition_name", "symptoms", "treatment_name"],
+                    through: {
+                        attributes: [],
+                    }
+                },
+                "doctors",
+                "providers",
+                // {
+                //     model: Provider,
+                //     as: "providers",
+                //     attributes: ["id", "name", "coverage_offered", "phone_number"],
+                //     through: {
+                //         attributes: [],
+                //     }
+                // }
+            ]
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving patients."
+            .then(data => {
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while retrieving patients."
+                });
             });
-        });
+
+    }
+    catch (error) {
+        transactionInstance.rollback()
+    }
 };
 
 // Find a single Patient with an id

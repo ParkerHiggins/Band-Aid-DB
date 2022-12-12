@@ -9,6 +9,13 @@ module.exports = (sequelize, Sequelize) => {
         specialty: {
             type: Sequelize.STRING
         }
-    });
+    }
+
+    /*{
+        indexes: [{fields: ['name']}]
+    }*/
+
+
+    );
     return Doctor;
 };

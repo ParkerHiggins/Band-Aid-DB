@@ -22,48 +22,60 @@ db.sequelize = sequelize;
 
 db.patient = require("../models/patient.model.js")(sequelize, Sequelize);
 db.doctor = require("../models/doctor.model.js")(sequelize, Sequelize);
-db.insurance_provider = require("../models/insurance_provider.model.js")(sequelize, Sequelize);
+db.provider = require("../models/provider.model.js")(sequelize, Sequelize);
 db.treatment = require("../models/treatment.model.js")(sequelize, Sequelize);
 db.condition = require("../models/condition.model.js")(sequelize, Sequelize);
 
-
-//db.condition.create({condition_name: "Cold", symptoms: "Sneezing", treatment_name: "Hydration"});
-
+// TODO: Create connection (TEST)
 db.patient.belongsToMany(db.condition, {
     through: "patient_condition",
     foreignKey: "patient_id",
-    otherKey: "condition_name"
+    otherKey: "condition_id"
 });
 db.condition.belongsToMany(db.patient, {
     through: "patient_condition",
-    foreignKey: "condition_name",
+    foreignKey: "condition_id",
     otherKey: "patient_id"
 });
 // todo: not sure if this is correct, may have to check names behavior in ins_treat
-db.insurance_provider.belongsToMany(db.treatment, {
-    through: "insurance_treatment",
-    foreignKey: "provider_name",
-    otherKey: "treatment_name"
+// TODO: Create connection (TEST)
+db.provider.belongsToMany(db.treatment, {
+    through: "provider_treatment",
+    foreignKey: "provider_id",
+    otherKey: "treatment_id"
 });
-db.treatment.belongsToMany(db.insurance_provider, {
-    through: "insurance_treatment",
-    foreignKey: "treatment_name",
-    otherKey: "provider_name"
+db.treatment.belongsToMany(db.provider, {
+    through: "provider_treatment",
+    foreignKey: "treatment_id",
+    otherKey: "provider_id"
 });
-db.condition.hasMany(db.treatment, {});
-db.treatment.belongsTo(db.condition, {
-    foreignKey: "condition_name",
+// This relationship connection works
+db.condition.belongsToMany(db.treatment, {
+    through: "condition_treatment",
+    foreignKey: "condition_id",
+    otherKey: "treatment_id",
 });
-db.insurance_provider.hasMany(db.patient, {});
-db.patient.belongsTo(db.insurance_provider, {
-    foreignKey: {
-        name: "provider_name"
-    }
-    // foreignKey: "provider_name",
+db.treatment.belongsToMany(db.condition, {
+    through: "condition_treatment",
+    foreignKey: "treatment_id",
+    otherKey: "condition_id",
 });
-db.doctor.hasMany(db.patient, {});
+
+// TODO: Create connection (TEST)
+db.provider.hasMany(db.patient, {
+    as: "patients"
+});
+db.patient.belongsTo(db.provider, {
+    foreignKey: "providerId",
+    as: "providers"
+});
+// TODO: Create connection
+db.doctor.hasMany(db.patient, {
+    as: "patients"
+});
 db.patient.belongsTo(db.doctor, {
-    foreignKey: "doctor_id",
+    as: "doctors",
+    foreignKey: "doctorId",
 });
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
@@ -81,22 +93,24 @@ db.user.belongsToMany(db.role, {
 db.ROLES = ["user", "admin", "moderator"];
 module.exports = db;
 
+//const trx = sequelize.transaction();
+
 sequelize.sync({force:true}).then(function() {
     db.condition.bulkCreate([
         {
-        condition_name: "Cold",
-        symptoms: "Sneezing, Coughing, Runny Nose",
-        treatment_name: "Hydration"
+            condition_name: "Cold",
+            symptoms: "Sneezing, Coughing, Runny Nose",
+            treatment_name: "Hydration"
         },
         {
-        condition_name: "Flu",
-        symptoms: "Fever",
-        treatment_name: "Antiviral Drugs"
+            condition_name: "Flu",
+            symptoms: "Fever",
+            treatment_name: "Antiviral Drugs"
         },
         {
-        condition_name: "Pneumonia",
-        symptoms: "Difficulty Breathing, Fever, Sweating",
-        treatment_name: "Antibiotics"
+            condition_name: "Pneumonia",
+            symptoms: "Difficulty Breathing, Fever, Sweating",
+            treatment_name: "Antibiotics"
         }
     ])
 
@@ -120,4 +134,27 @@ sequelize.sync({force:true}).then(function() {
 
 })
 
+/*function trans(callback, done) {
+    sequelize.transaction(function (t) {
+        function commit(callback) {
+            t.commit().done(function (err) {
+                console.log('commited')
+                if (callback)
+                    callback(err)
+            })
+        }
 
+        function rollback(rollbackErr, callback) {
+            t.rollback().done(function (err) {
+                if (callback)
+                    callback(err || rollbackErr)
+            })
+        }
+
+        t.done(function () {
+            if (done) done()
+        })
+
+        callback(commit, rollback, t)
+    })
+}*/

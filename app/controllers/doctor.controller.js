@@ -1,52 +1,65 @@
 const db = require("../models");
+const sequelize = require("sequelize");
+const {Transaction} = require("sequelize");
 const Doctor = db.doctor;
 const Op = db.Sequelize.Op;
 
+// Changes for git demo
+
 // Create and Save a new Doctor
 exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.name) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-        return;
-    }
-
-    // Create a Doctor
-    const doctor = {
-        name: req.body.name,
-        age: req.body.age,
-        specialty: req.body.specialty
-    };
-
-    // Save Tutorial in the database
-    Doctor.create(doctor)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Doctor."
+   // const transactionInstance = db.sequelize.transaction();
+   // transactionInstance.isolationLevel = Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED
+        // Validate request
+        if (!req.body.name) {
+            res.status(400).send({
+                message: "Content can not be empty!"
             });
-        });
+            return;
+        }
+        // Create a Doctor
+        const doctor = {
+            name: req.body.name,
+            age: req.body.age,
+            specialty: req.body.specialty
+        };
+        // Save Tutorial in the database
+        Doctor.create(doctor)
+            .then(data => {
+                res.send(data);
+                // transactionInstance.commit()
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the Doctor."
+                });
+            });
+
 };
 
 // Retrieve all Doctors from the database.
 exports.findAll = (req, res) => {
-    const name = req.query.name;
-    var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+    const transactionInstance = db.sequelize.transaction();
+    transactionInstance.isolationLevel = Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED
+    try {
+        const name = req.query.name;
+        var condition = name ? {name: {[Op.like]: `%${name}%`}} : null;
 
-    Doctor.findAll({ where: condition })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving doctors."
+        Doctor.findAll({where: condition})
+            .then(data => {
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while retrieving doctors."
+                });
             });
-        });
+    }
+    catch (error) {
+        transactionInstance.rollback()
+    }
 };
 
 // Find a single Doctor with an id

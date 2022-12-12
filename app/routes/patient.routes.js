@@ -18,18 +18,20 @@ module.exports = function(app) {
     // Create a new Patient
     app.post("/api/patients/", [authJwt.verifyToken], patients.create);
 
-    // Retrieve all Patients
+    // Retrieve all Doctors
     app.get("/api/patients/", [authJwt.verifyToken], patients.findAll);
 
-    // Retrieve a single Patient with id
+    // Retrieve a single Doctor with id
     app.get("/api/patients/:id", [authJwt.verifyToken], patients.findOne);
 
-    // Update a Patient with id
+    // Update a Doctor with id
     app.put("/api/patients/:id", [authJwt.verifyToken], patients.update);
 
-    // Delete a Patient with id
+    // Delete a Doctor with id
     app.delete("/api/patients/:id", [authJwt.verifyToken], patients.delete);
 
-    // Delete all Patients
+    // Delete all Doctors
     app.delete("/api/patients/", [authJwt.verifyToken], patients.deleteAll);
+
+    // app.use('/api/doctors', router);
 };

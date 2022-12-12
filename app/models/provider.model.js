@@ -1,15 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
-    const Treatment = sequelize.define("treatments", {
+    const Provider = sequelize.define("providers", {
         name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
             // primaryKey: true
         },
-        duration: {
+        coverage_offered: {
             type: Sequelize.STRING
         },
-        cost: {
+        phone_number: {
             type: Sequelize.INTEGER
         }
     });
-    return Treatment;
+    return Provider;
 };

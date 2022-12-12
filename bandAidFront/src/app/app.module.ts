@@ -35,6 +35,14 @@ import { ProviderDetailsComponent } from './components/provider-details/provider
 import { ConditionListComponent } from './components/condition-list/condition-list.component';
 import { ProviderListComponent } from './components/provider-list/provider-list.component';
 
+import { AddConditionComponent } from './components/add-condition/add-condition.component';
+import { AddProviderComponent } from './components/add-provider/add-provider.component';
+import { ConditionDetailsComponent } from './components/condition-details/condition-details.component';
+
+import { ProviderDetailsComponent } from './components/provider-details/provider-details.component';
+import { ConditionListComponent } from './components/condition-list/condition-list.component';
+import { ProviderListComponent } from './components/provider-list/provider-list.component';
+
 @NgModule({
   declarations: [
     AppComponent,

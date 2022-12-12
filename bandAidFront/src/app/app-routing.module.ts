@@ -21,6 +21,18 @@ import {ProviderListComponent} from "./components/provider-list/provider-list.co
 import {ProviderDetailsComponent} from "./components/provider-details/provider-details.component";
 import {AddProviderComponent} from "./components/add-provider/add-provider.component";
 
+import { TreatmentListComponent } from './components/treatment-list/treatment-list.component';
+import { TreatmentDetailsComponent } from './components/treatment-details/treatment-details.component';
+import { AddTreatmentComponent } from './components/add-treatment/add-treatment.component';
+
+import { ConditionListComponent } from "./components/condition-list/condition-list.component";
+import { ConditionDetailsComponent } from "./components/condition-details/condition-details.component";
+import { AddConditionComponent } from "./components/add-condition/add-condition.component";
+
+import { ProviderListComponent } from "./components/provider-list/provider-list.component";
+import { ProviderDetailsComponent } from "./components/provider-details/provider-details.component";
+import { AddProviderComponent } from "./components/add-provider/add-provider.component";
+
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
